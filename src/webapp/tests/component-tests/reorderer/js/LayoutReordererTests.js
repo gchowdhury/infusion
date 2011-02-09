@@ -145,7 +145,19 @@ https://source.fluidproject.org/svn/LICENSE.txt
             };
             
             return obj;
-        };       
+        };  
+        
+        var checkTabIndex = function (util, options) {
+            var portlet = ""; 
+            var i = 1;
+            var layoutReorderer =  fluid.reorderLayout (util.containerId, options); 
+            jqUnit.assertEquals("Tabindex should be set to 0 for the container ", 0, layoutReorderer.container[0].tabIndex);           
+            for (i = 1; i < util.counter; i++) {
+                portlet = $(util.portletId + i)[0];
+                //loop through all the index to check for -1
+                jqUnit.assertEquals("Tabindex should be set to -1 for item " + i, -1, portlet.tabIndex);
+            }  
+        }; 
         
         tests.test("reorderLayout API", function () {
             var options = assembleOptions();
@@ -291,7 +303,34 @@ https://source.fluidproject.org/svn/LICENSE.txt
             };
        
             fluid.testUtils.reorderer.stepReorderer(".reorderer_container", options);                       
-        });    
+        });   
+        
+        tests.test("testing with default options. The container should have tabindex set to zero and -1 for all items within the container", function () {             
+            var util = {
+              containerId: "#default-selector-test",
+              portletId: "#portlet-",
+              counter: 3               
+            };
+                        
+            checkTabIndex(util); 
+        }); 
+        
+        tests.test("testing with customized options. The container should have tabindex set to zero and -1 for all items within the container", function () {             
+            var options = {
+                selectors: {
+                    columns: "td",
+                    modules: "td > div"
+                }                
+            };
+            
+            var util = {
+              containerId: "#portlet-reorderer-root",
+              portletId: "#portlet",
+              counter: 10               
+            };
+            
+            checkTabIndex(util, options);                               
+        });  
     
     });
 })(jQuery);
