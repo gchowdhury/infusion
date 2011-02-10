@@ -301,7 +301,7 @@ https://source.fluidproject.org/svn/LICENSE.txt
                                       [1, 2, 3, 9, 4, 5, 6, 7, 8]],
                 itemSelector: fluid.jById(fluid.testUtils.moduleLayout.portletIds[9])                             
             };
-       
+            
             fluid.testUtils.reorderer.stepReorderer(".reorderer_container", options);                       
         });   
         
